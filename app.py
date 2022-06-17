@@ -13,6 +13,8 @@ if uri and uri.startswith("postgres://"):
 else:
     app.config["SQLALCHEMY_DATABASE_URI"]='postgresql://tobi:1234@localhost:5432/todoapp'
 # rest of connection code using the connection string `uri`
+
+
 app.config["SQLALCHEMY_TRACK_MODIFICATION"] = False
 db = SQLAlchemy(app)
 
@@ -23,7 +25,7 @@ class Todo(db.Model):
 
     def __repr__(self) -> str:
         return f'<Todo {self.description}>'
-
+db.drop_all()
 db.create_all()
 
 
