@@ -3,7 +3,16 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"]= os.environ.get('DATABASE_URL','postgresql://tobi:1234@localhost:5432/todoapp')
+
+import os
+
+uri = os.getenv("DATABASE_URL")  # or other relevant config var
+if uri and uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+    app.config["SQLALCHEMY_DATABASE_URI"]= uri
+else:
+    app.config["SQLALCHEMY_DATABASE_URI"]='postgresql://tobi:1234@localhost:5432/todoapp'
+# rest of connection code using the connection string `uri`
 app.config["SQLALCHEMY_TRACK_MODIFICATION"] = False
 db = SQLAlchemy(app)
 
