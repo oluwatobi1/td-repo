@@ -1,8 +1,9 @@
+import os
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"]= 'postgresql://tobi:1234@localhost:5432/todoapp'
+app.config["SQLALCHEMY_DATABASE_URI"]= os.environ.get('DATABASE_URL','postgresql://tobi:1234@localhost:5432/todoapp')
 app.config["SQLALCHEMY_TRACK_MODIFICATION"] = False
 db = SQLAlchemy(app)
 
