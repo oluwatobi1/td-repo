@@ -1,6 +1,8 @@
+
 import os
-from flask import Flask, render_template
+from flask import Flask, jsonify, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import desc
 
 app = Flask(__name__)
 
@@ -33,3 +35,12 @@ db.create_all()
 @app.route('/')
 def index(): 
     return render_template("index.html", data = Todo.query.all())
+
+@app.route('/todos/create', methods= ["POST"])
+def create_todos():
+    data = request.get_json()
+    description = data.get('description', 'Default')
+    todo = Todo(description=description)
+    db.session.add(todo)
+    db.session.commit()
+    return jsonify({"message":"success"})
