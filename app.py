@@ -25,7 +25,7 @@ class Todo(db.Model):
 
     def __repr__(self) -> str:
         return f'<Todo {self.description}>'
-db.drop_all()
+        
 db.create_all()
 
 
